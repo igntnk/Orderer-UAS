@@ -1,0 +1,87 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+package auth;
+
+option go_package = "gitflic.ru/project/ighnatenko/disturbed-transaction-system/AuthService/proto/pb";
+
+service UserService {
+  rpc InsertOne(InsertUserRequest) returns (InsertUserResponse) {};
+  rpc Get(GetUsersRequest) returns (GetUsersResponse) {};
+  rpc Delete(DeleteUserRequest) returns (google.protobuf.Empty) {};
+  rpc Update(UpdateUserRequest) returns (google.protobuf.Empty) {};
+}
+
+message InsertUserRequest {
+  string Username = 1;
+  string Password = 2;
+  bool IsBlocked = 3;
+}
+
+message InsertUserResponse {
+  string Id = 1;
+}
+
+message GetUsersRequest{
+  int64 Limit =1;
+  int64 Offset =2;
+}
+
+message GetUserMessage{
+  string Id = 1;
+  string Username = 2;
+  string LastLogin = 3;
+  bool IsBlocked = 4;
+}
+
+message GetUsersResponse{
+  repeated GetUserMessage Users = 1;
+}
+
+message DeleteUserRequest{
+  string Id = 1;
+}
+
+message UpdateUserRequest{
+  string Id = 1;
+  string Username = 2;
+  string Password = 3;
+  bool IsBlocked = 4;
+}
+
+service AuthService {
+  rpc Login(LoginRequest) returns (LoginResponse) {};
+
+  rpc RefreshToken(google.protobuf.Empty) returns (RefreshTokenResponse) {};
+
+  rpc ChangePassword(ChangePasswordRequest) returns (google.protobuf.Empty) {};
+
+  rpc GetJwtPublicKey(google.protobuf.Empty) returns (PublicKey) {};
+}
+
+message LoginRequest {
+  string username = 1;
+  string password = 2;
+  string source = 3;
+}
+
+message LoginResponse {
+  string accessToken = 1;
+  string refreshToken = 2;
+  GetUserMessage user = 3;
+}
+
+message RefreshTokenResponse {
+  string accessToken = 1;
+  string refreshToken = 2;
+}
+
+message ChangePasswordRequest {
+  string password = 2;
+  string newPassword = 3;
+}
+
+message PublicKey {
+  bytes key = 1;
+}

@@ -1,0 +1,110 @@
+package service
+
+import (
+	"context"
+	"errors"
+	"gitflic.ru/project/ighnatenko/disturbed-transaction-system/AuthService/grpc/util"
+	"gitflic.ru/project/ighnatenko/disturbed-transaction-system/AuthService/models"
+	"gitflic.ru/project/ighnatenko/disturbed-transaction-system/AuthService/repository"
+	"github.com/google/uuid"
+	"github.com/rs/zerolog"
+	"time"
+)
+
+type tokenService struct {
+	userService    UserService
+	userRepository repository.UserRepository
+	logger         zerolog.Logger
+	accessTTL      time.Duration
+	refreshTTL     time.Duration
+	jwk            JWK
+}
+
+func NewTokenService(
+	userService UserService,
+	userRepository repository.UserRepository,
+	logger zerolog.Logger,
+	accessTTL time.Duration,
+	refreshTTL time.Duration,
+	jwk JWK) TokenService {
+
+	return &tokenService{
+		userService:    userService,
+		userRepository: userRepository,
+		logger:         logger,
+		accessTTL:      accessTTL,
+		refreshTTL:     refreshTTL,
+		jwk:            jwk,
+	}
+}
+
+type TokenService interface {
+	RefreshToken(ctx context.Context, token string) (string, string, error)
+	CreateTokenPair(ctx context.Context, userModel *models.User, accessTokenData map[string]any,
+		refreshTokenData map[string]any) (string, string, error)
+}
+
+func (s *tokenService) CreateTokenPair(ctx context.Context, userModel *models.User, accessTokenData map[string]any,
+	refreshTokenData map[string]any) (string, string, error) {
+	userResponse := util.FromUserModelsToResponse(userModel)
+
+	err := s.userRepository.AddLastLogin(ctx, userModel.Username, time.Now().Unix())
+	if err != nil {
+		s.logger.Error().Err(err).Msgf("failed add last login: %s", err.Error())
+		return "", "", errors.Join(ErrUnknown, err)
+	}
+
+	tokenID, err := uuid.NewUUID()
+	if err != nil {
+		return "", "", errors.Join(ErrUnknown, err)
+	}
+
+	access, err := NewAccessToken(userResponse, s.accessTTL, s.jwk, accessTokenData, tokenID.String())
+	if err != nil {
+		s.logger.Error().Err(err).Msgf("failed create access token: %s", err.Error())
+		return "", "", errors.Join(ErrUnknown, err)
+	}
+	refresh, err := NewRefreshToken(userResponse, s.refreshTTL, s.jwk, refreshTokenData, tokenID.String())
+	if err != nil {
+		s.logger.Error().Err(err).Msgf("failed create refresh token: %s", err.Error())
+		return "", "", errors.Join(ErrUnknown, err)
+	}
+
+	return access, refresh, nil
+}
+
+func (s *tokenService) RefreshToken(ctx context.Context, token string) (string, string, error) {
+
+	claims, err := s.jwk.ExtractClaimsFromRefreshToken(token)
+	if err != nil {
+		s.logger.Err(err).Msgf("failed extract claims from token")
+		return "", "", errors.Join(ErrUnknown, err)
+	}
+
+	userModel, err := s.userService.GetByID(ctx, claims.UserId)
+	if err != nil {
+		s.logger.Err(err).Msgf("failed get userModel from refresh token")
+		return "", "", errors.Join(ErrUnknown, err)
+	}
+
+	tokenID, err := uuid.NewUUID()
+	if err != nil {
+		return "", "", errors.Join(ErrUnknown, err)
+	}
+
+	refreshedAccessData := make(map[string]any)
+	refreshedRefreshData := make(map[string]any)
+
+	access, err := NewAccessToken(userModel, s.accessTTL, s.jwk, refreshedAccessData, tokenID.String())
+	if err != nil {
+		s.logger.Error().Err(err).Msgf("failed create access token")
+		return "", "", errors.Join(ErrUnknown, err)
+	}
+	refresh, err := NewRefreshToken(userModel, s.accessTTL, s.jwk, refreshedRefreshData, tokenID.String())
+	if err != nil {
+		s.logger.Error().Err(err).Msgf("failed create refresh token")
+		return "", "", errors.Join(ErrUnknown, err)
+	}
+
+	return access, refresh, err
+}
