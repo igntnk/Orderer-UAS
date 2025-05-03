@@ -1,4 +1,4 @@
-module gitflic.ru/project/ighnatenko/disturbed-transaction-system/AuthService
+module github.com/igntnk/Orderer-UAS
 
 go 1.23.4
 

@@ -1,0 +1,19 @@
+[
+  {
+    "update": "users",
+    "updates": [
+      {
+        "q": { "_id":  { "$oid":  "000000000000000000000000"}},
+        "u": {
+          "$setOnInsert": {
+            "_id": { "$oid":  "000000000000000000000000"},
+            "username": "superAdmin",
+            "hashedPassword": "$2a$12$UN7Jd0z79PVtKYktxYZ74u8kL/Jk8ALXTv3uuigYIFYn8YOut9z0q",
+            "salt": "6971be"
+          }
+        },
+        "upsert": true
+      }
+    ]
+  }
+]

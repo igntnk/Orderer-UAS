@@ -3,10 +3,10 @@ package service
 import (
 	"context"
 	"errors"
-	"gitflic.ru/project/ighnatenko/disturbed-transaction-system/AuthService/grpc/util"
-	"gitflic.ru/project/ighnatenko/disturbed-transaction-system/AuthService/models"
-	"gitflic.ru/project/ighnatenko/disturbed-transaction-system/AuthService/repository"
 	"github.com/google/uuid"
+	"github.com/igntnk/Orderer-UAS/grpc/util"
+	"github.com/igntnk/Orderer-UAS/models"
+	"github.com/igntnk/Orderer-UAS/repository"
 	"github.com/rs/zerolog"
 	"time"
 )

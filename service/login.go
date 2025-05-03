@@ -3,8 +3,8 @@ package service
 import (
 	"context"
 	"errors"
-	"gitflic.ru/project/ighnatenko/disturbed-transaction-system/AuthService/models"
-	"gitflic.ru/project/ighnatenko/disturbed-transaction-system/AuthService/requests"
+	"github.com/igntnk/Orderer-UAS/models"
+	"github.com/igntnk/Orderer-UAS/requests"
 	"github.com/rs/zerolog"
 )
 

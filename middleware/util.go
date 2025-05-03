@@ -2,7 +2,7 @@ package middleware
 
 import (
 	"errors"
-	"gitflic.ru/project/ighnatenko/disturbed-transaction-system/AuthService/service"
+	"github.com/igntnk/Orderer-UAS/service"
 )
 
 type TokenInfo struct {

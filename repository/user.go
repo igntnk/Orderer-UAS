@@ -2,7 +2,7 @@ package repository
 
 import (
 	"context"
-	"gitflic.ru/project/ighnatenko/disturbed-transaction-system/AuthService/models"
+	"github.com/igntnk/Orderer-UAS/models"
 )
 
 const (
