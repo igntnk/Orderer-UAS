@@ -3,10 +3,10 @@ package grpc
 import (
 	"context"
 	"errors"
-	"gitflic.ru/project/ighnatenko/disturbed-transaction-system/AuthService/grpc/util"
-	"gitflic.ru/project/ighnatenko/disturbed-transaction-system/AuthService/middleware"
-	"gitflic.ru/project/ighnatenko/disturbed-transaction-system/AuthService/service"
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/igntnk/Orderer-UAS/grpc/util"
+	"github.com/igntnk/Orderer-UAS/middleware"
+	"github.com/igntnk/Orderer-UAS/service"
 	"github.com/rs/zerolog"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"

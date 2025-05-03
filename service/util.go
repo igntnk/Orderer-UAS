@@ -1,8 +1,8 @@
 package service
 
 import (
-	"gitflic.ru/project/ighnatenko/disturbed-transaction-system/AuthService/responses"
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/igntnk/Orderer-UAS/responses"
 	"time"
 )
 

@@ -2,11 +2,11 @@ package setup
 
 import (
 	"context"
-	"gitflic.ru/project/ighnatenko/disturbed-transaction-system/AuthService/config"
-	grpcapp "gitflic.ru/project/ighnatenko/disturbed-transaction-system/AuthService/grpc"
-	"gitflic.ru/project/ighnatenko/disturbed-transaction-system/AuthService/repository"
-	mongorepo "gitflic.ru/project/ighnatenko/disturbed-transaction-system/AuthService/repository/mongo"
-	"gitflic.ru/project/ighnatenko/disturbed-transaction-system/AuthService/service"
+	"github.com/igntnk/Orderer-UAS/config"
+	grpcapp "github.com/igntnk/Orderer-UAS/grpc"
+	"github.com/igntnk/Orderer-UAS/repository"
+	mongorepo "github.com/igntnk/Orderer-UAS/repository/mongo"
+	"github.com/igntnk/Orderer-UAS/service"
 	"github.com/rs/zerolog"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"

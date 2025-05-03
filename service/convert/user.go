@@ -1,8 +1,8 @@
 package convert
 
 import (
-	"gitflic.ru/project/ighnatenko/disturbed-transaction-system/AuthService/models"
-	"gitflic.ru/project/ighnatenko/disturbed-transaction-system/AuthService/responses"
+	"github.com/igntnk/Orderer-UAS/models"
+	"github.com/igntnk/Orderer-UAS/responses"
 )
 
 func UsersModelToResponses(in []models.User) ([]*responses.GetUsersResponse, error) {

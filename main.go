@@ -1,10 +1,10 @@
 package main
 
 import (
-	"gitflic.ru/project/ighnatenko/disturbed-transaction-system/AuthService/config"
-	"gitflic.ru/project/ighnatenko/disturbed-transaction-system/AuthService/grpc"
-	"gitflic.ru/project/ighnatenko/disturbed-transaction-system/AuthService/pkg/client"
-	"gitflic.ru/project/ighnatenko/disturbed-transaction-system/AuthService/setup"
+	"github.com/igntnk/Orderer-UAS/config"
+	"github.com/igntnk/Orderer-UAS/grpc"
+	"github.com/igntnk/Orderer-UAS/pkg/client"
+	"github.com/igntnk/Orderer-UAS/setup"
 	"go.mongodb.org/mongo-driver/mongo/description"
 	"os/signal"
 	"syscall"

@@ -2,10 +2,10 @@ package grpc
 
 import (
 	"context"
-	"gitflic.ru/project/ighnatenko/disturbed-transaction-system/AuthService/grpc/util"
-	authpb "gitflic.ru/project/ighnatenko/disturbed-transaction-system/AuthService/proto/pb"
-	"gitflic.ru/project/ighnatenko/disturbed-transaction-system/AuthService/requests"
-	"gitflic.ru/project/ighnatenko/disturbed-transaction-system/AuthService/service"
+	"github.com/igntnk/Orderer-UAS/grpc/util"
+	authpb "github.com/igntnk/Orderer-UAS/proto/pb"
+	"github.com/igntnk/Orderer-UAS/requests"
+	"github.com/igntnk/Orderer-UAS/service"
 	"github.com/rs/zerolog"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"

@@ -3,11 +3,11 @@ package service
 import (
 	"context"
 	"errors"
-	"gitflic.ru/project/ighnatenko/disturbed-transaction-system/AuthService/models"
-	"gitflic.ru/project/ighnatenko/disturbed-transaction-system/AuthService/repository"
-	"gitflic.ru/project/ighnatenko/disturbed-transaction-system/AuthService/requests"
-	"gitflic.ru/project/ighnatenko/disturbed-transaction-system/AuthService/responses"
-	"gitflic.ru/project/ighnatenko/disturbed-transaction-system/AuthService/service/convert"
+	"github.com/igntnk/Orderer-UAS/models"
+	"github.com/igntnk/Orderer-UAS/repository"
+	"github.com/igntnk/Orderer-UAS/requests"
+	"github.com/igntnk/Orderer-UAS/responses"
+	"github.com/igntnk/Orderer-UAS/service/convert"
 	"github.com/mitchellh/mapstructure"
 	"github.com/rs/zerolog"
 )

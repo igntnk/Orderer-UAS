@@ -1,9 +1,9 @@
 package util
 
 import (
-	"gitflic.ru/project/ighnatenko/disturbed-transaction-system/AuthService/models"
-	authpb "gitflic.ru/project/ighnatenko/disturbed-transaction-system/AuthService/proto/pb"
-	"gitflic.ru/project/ighnatenko/disturbed-transaction-system/AuthService/responses"
+	"github.com/igntnk/Orderer-UAS/models"
+	authpb "github.com/igntnk/Orderer-UAS/proto/pb"
+	"github.com/igntnk/Orderer-UAS/responses"
 )
 
 func GetUsersToAuthPb(in []*responses.GetUsersResponse) (*authpb.GetUsersResponse, error) {

@@ -2,8 +2,8 @@ package service
 
 import (
 	"context"
-	"gitflic.ru/project/ighnatenko/disturbed-transaction-system/AuthService/models"
-	"gitflic.ru/project/ighnatenko/disturbed-transaction-system/AuthService/requests"
+	"github.com/igntnk/Orderer-UAS/models"
+	"github.com/igntnk/Orderer-UAS/requests"
 )
 
 type UserServiceRepoContract interface {
