@@ -3,11 +3,11 @@ package service
 import (
 	"context"
 	"errors"
-	"github.com/igntnk/Orderer-UAS/models"
-	"github.com/igntnk/Orderer-UAS/repository"
-	"github.com/igntnk/Orderer-UAS/requests"
-	"github.com/igntnk/Orderer-UAS/responses"
-	"github.com/igntnk/Orderer-UAS/service/convert"
+	"github.com/igntnk/Orderer/UAS/models"
+	"github.com/igntnk/Orderer/UAS/repository"
+	"github.com/igntnk/Orderer/UAS/requests"
+	"github.com/igntnk/Orderer/UAS/responses"
+	"github.com/igntnk/Orderer/UAS/service/convert"
 	"github.com/mitchellh/mapstructure"
 	"github.com/rs/zerolog"
 )

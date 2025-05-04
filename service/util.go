@@ -2,29 +2,17 @@ package service
 
 import (
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/igntnk/Orderer-UAS/responses"
+	"github.com/igntnk/Orderer/UAS/jwk"
+	"github.com/igntnk/Orderer/UAS/responses"
 	"time"
 )
 
 const tokenVersion = "1"
 
-type Claims struct {
-	jwt.RegisteredClaims
-	Version string                      `json:"version"`
-	User    *responses.GetUsersResponse `json:"user"`
-	Data    map[string]any              `json:"data"`
-	IsRoot  bool                        `json:"isRoot"`
-}
-type RefreshClaims struct {
-	jwt.RegisteredClaims
-	Data   map[string]any `json:"data"`
-	UserId string         `json:"userId"`
-}
-
-func NewAccessToken(user *responses.GetUsersResponse, duration time.Duration, jwk JWK, data map[string]any, tokenId string) (string, error) {
+func NewAccessToken(user *responses.GetUsersResponse, jwkey jwk.JWKSigner, duration time.Duration, data map[string]any, tokenId string) (string, error) {
 	var err error
 
-	claims := &Claims{
+	claims := &jwk.Claims{
 		Version: tokenVersion,
 		User:    user,
 		Data:    data,
@@ -38,7 +26,7 @@ func NewAccessToken(user *responses.GetUsersResponse, duration time.Duration, jw
 			ID:        tokenId,
 		},
 	}
-	ss, err := jwk.SignToken(claims)
+	ss, err := jwkey.SignToken(claims)
 	if err != nil {
 		return "", err
 	}
@@ -48,13 +36,13 @@ func NewAccessToken(user *responses.GetUsersResponse, duration time.Duration, jw
 func NewRefreshToken(
 	user *responses.GetUsersResponse,
 	duration time.Duration,
-	jwk JWK,
+	jwkey jwk.JWKSigner,
 	data map[string]any,
 	tokenId string,
 ) (string, error) {
 	var err error
 
-	claims := &RefreshClaims{
+	claims := &jwk.RefreshClaims{
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(duration)),
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
@@ -66,7 +54,7 @@ func NewRefreshToken(
 		Data: data,
 	}
 
-	ss, err := jwk.SignToken(claims)
+	ss, err := jwkey.SignToken(claims)
 	if err != nil {
 		return "", err
 	}

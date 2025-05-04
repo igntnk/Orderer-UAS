@@ -4,9 +4,10 @@ import (
 	"context"
 	"errors"
 	"github.com/google/uuid"
-	"github.com/igntnk/Orderer-UAS/grpc/util"
-	"github.com/igntnk/Orderer-UAS/models"
-	"github.com/igntnk/Orderer-UAS/repository"
+	"github.com/igntnk/Orderer/UAS/grpc/util"
+	"github.com/igntnk/Orderer/UAS/jwk"
+	"github.com/igntnk/Orderer/UAS/models"
+	"github.com/igntnk/Orderer/UAS/repository"
 	"github.com/rs/zerolog"
 	"time"
 )
@@ -17,7 +18,7 @@ type tokenService struct {
 	logger         zerolog.Logger
 	accessTTL      time.Duration
 	refreshTTL     time.Duration
-	jwk            JWK
+	jwkey          jwk.JWKSigner
 }
 
 func NewTokenService(
@@ -26,7 +27,7 @@ func NewTokenService(
 	logger zerolog.Logger,
 	accessTTL time.Duration,
 	refreshTTL time.Duration,
-	jwk JWK) TokenService {
+	jwkey jwk.JWKSigner) TokenService {
 
 	return &tokenService{
 		userService:    userService,
@@ -34,7 +35,7 @@ func NewTokenService(
 		logger:         logger,
 		accessTTL:      accessTTL,
 		refreshTTL:     refreshTTL,
-		jwk:            jwk,
+		jwkey:          jwkey,
 	}
 }
 
@@ -59,12 +60,12 @@ func (s *tokenService) CreateTokenPair(ctx context.Context, userModel *models.Us
 		return "", "", errors.Join(ErrUnknown, err)
 	}
 
-	access, err := NewAccessToken(userResponse, s.accessTTL, s.jwk, accessTokenData, tokenID.String())
+	access, err := NewAccessToken(userResponse, s.jwkey, s.accessTTL, accessTokenData, tokenID.String())
 	if err != nil {
 		s.logger.Error().Err(err).Msgf("failed create access token: %s", err.Error())
 		return "", "", errors.Join(ErrUnknown, err)
 	}
-	refresh, err := NewRefreshToken(userResponse, s.refreshTTL, s.jwk, refreshTokenData, tokenID.String())
+	refresh, err := NewRefreshToken(userResponse, s.refreshTTL, s.jwkey, refreshTokenData, tokenID.String())
 	if err != nil {
 		s.logger.Error().Err(err).Msgf("failed create refresh token: %s", err.Error())
 		return "", "", errors.Join(ErrUnknown, err)
@@ -75,7 +76,7 @@ func (s *tokenService) CreateTokenPair(ctx context.Context, userModel *models.Us
 
 func (s *tokenService) RefreshToken(ctx context.Context, token string) (string, string, error) {
 
-	claims, err := s.jwk.ExtractClaimsFromRefreshToken(token)
+	claims, err := s.jwkey.ParseRefreshToken(token)
 	if err != nil {
 		s.logger.Err(err).Msgf("failed extract claims from token")
 		return "", "", errors.Join(ErrUnknown, err)
@@ -95,12 +96,12 @@ func (s *tokenService) RefreshToken(ctx context.Context, token string) (string, 
 	refreshedAccessData := make(map[string]any)
 	refreshedRefreshData := make(map[string]any)
 
-	access, err := NewAccessToken(userModel, s.accessTTL, s.jwk, refreshedAccessData, tokenID.String())
+	access, err := NewAccessToken(userModel, s.jwkey, s.accessTTL, refreshedAccessData, tokenID.String())
 	if err != nil {
 		s.logger.Error().Err(err).Msgf("failed create access token")
 		return "", "", errors.Join(ErrUnknown, err)
 	}
-	refresh, err := NewRefreshToken(userModel, s.accessTTL, s.jwk, refreshedRefreshData, tokenID.String())
+	refresh, err := NewRefreshToken(userModel, s.accessTTL, s.jwkey, refreshedRefreshData, tokenID.String())
 	if err != nil {
 		s.logger.Error().Err(err).Msgf("failed create refresh token")
 		return "", "", errors.Join(ErrUnknown, err)
