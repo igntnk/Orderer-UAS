@@ -1,8 +1,8 @@
 package convert
 
 import (
-	"github.com/igntnk/Orderer-UAS/models"
-	"github.com/igntnk/Orderer-UAS/responses"
+	"github.com/igntnk/Orderer/UAS/models"
+	"github.com/igntnk/Orderer/UAS/responses"
 )
 
 func UsersModelToResponses(in []models.User) ([]*responses.GetUsersResponse, error) {

@@ -3,9 +3,9 @@ package mongo
 import (
 	"context"
 	"errors"
-	"github.com/igntnk/Orderer-UAS/models"
-	"github.com/igntnk/Orderer-UAS/repository"
-	"github.com/igntnk/Orderer-UAS/service"
+	"github.com/igntnk/Orderer/UAS/models"
+	"github.com/igntnk/Orderer/UAS/repository"
+	"github.com/igntnk/Orderer/UAS/service"
 	"github.com/rs/zerolog"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"

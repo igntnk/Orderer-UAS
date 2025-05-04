@@ -2,7 +2,7 @@ package repository
 
 import (
 	"context"
-	"github.com/igntnk/Orderer-UAS/models"
+	"github.com/igntnk/Orderer/UAS/models"
 )
 
 const (

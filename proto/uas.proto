@@ -2,9 +2,9 @@ syntax = "proto3";
 
 import "google/protobuf/empty.proto";
 
-package auth;
+package uas;
 
-option go_package = "github.com/igntnk/Orderer-UAS/proto/pb";
+option go_package = "github.com/igntnk/Orderer/UAS/proto/pb";
 
 service UserService {
   rpc InsertOne(InsertUserRequest) returns (InsertUserResponse) {};

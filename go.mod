@@ -1,4 +1,4 @@
-module github.com/igntnk/Orderer-UAS
+module github.com/igntnk/Orderer/UAS
 
 go 1.23.4
 

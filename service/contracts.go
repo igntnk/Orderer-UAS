@@ -2,8 +2,8 @@ package service
 
 import (
 	"context"
-	"github.com/igntnk/Orderer-UAS/models"
-	"github.com/igntnk/Orderer-UAS/requests"
+	"github.com/igntnk/Orderer/UAS/models"
+	"github.com/igntnk/Orderer/UAS/requests"
 )
 
 type UserServiceRepoContract interface {

@@ -1,10 +1,10 @@
 package main
 
 import (
-	"github.com/igntnk/Orderer-UAS/config"
-	"github.com/igntnk/Orderer-UAS/grpc"
-	"github.com/igntnk/Orderer-UAS/pkg/client"
-	"github.com/igntnk/Orderer-UAS/setup"
+	"github.com/igntnk/Orderer/UAS/config"
+	"github.com/igntnk/Orderer/UAS/grpc"
+	"github.com/igntnk/Orderer/UAS/pkg/client"
+	"github.com/igntnk/Orderer/UAS/setup"
 	"go.mongodb.org/mongo-driver/mongo/description"
 	"os/signal"
 	"syscall"

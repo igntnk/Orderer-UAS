@@ -2,11 +2,12 @@ package setup
 
 import (
 	"context"
-	"github.com/igntnk/Orderer-UAS/config"
-	grpcapp "github.com/igntnk/Orderer-UAS/grpc"
-	"github.com/igntnk/Orderer-UAS/repository"
-	mongorepo "github.com/igntnk/Orderer-UAS/repository/mongo"
-	"github.com/igntnk/Orderer-UAS/service"
+	"github.com/igntnk/Orderer/UAS/config"
+	grpcapp "github.com/igntnk/Orderer/UAS/grpc"
+	"github.com/igntnk/Orderer/UAS/jwk"
+	"github.com/igntnk/Orderer/UAS/repository"
+	mongorepo "github.com/igntnk/Orderer/UAS/repository/mongo"
+	"github.com/igntnk/Orderer/UAS/service"
 	"github.com/rs/zerolog"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -44,22 +45,22 @@ func Init(ctx context.Context, db *mongo.Database, isReplicaSet bool, logger zer
 	var (
 		userRepository = mongorepo.NewUserRepository(ctx, db, isReplicaSet, logger)
 
-		jwk = service.CreateJWK(privateKey)
+		jwkey = jwk.CreateJWK(privateKey, cfg.Server.Auth.JwtAlg)
 
 		userService  = service.NewUserService(userRepository, logger, service.NewPasswordManager())
 		authService  = service.NewAuthService(logger, userRepository, service.NewPasswordManager())
-		tokenService = service.NewTokenService(userService, userRepository, logger, cfg.Server.Auth.AccessTTL, cfg.Server.Auth.RefreshTTL, jwk)
+		tokenService = service.NewTokenService(userService, userRepository, logger, cfg.Server.Auth.AccessTTL, cfg.Server.Auth.RefreshTTL, jwkey)
 		loginService = service.NewLoginService(tokenService, userRepository, authService, logger)
 	)
 
-	grpcMiddleware := grpcapp.NewMiddleware(jwk, logger, make(map[string]any), make(map[string]any))
+	grpcMiddleware := grpcapp.NewMiddleware(jwkey, logger, make(map[string]any), make(map[string]any))
 	grpcServer = grpc.NewServer(
 		grpc.UnaryInterceptor(grpcMiddleware.Unary()),
 		grpc.StreamInterceptor(grpcMiddleware.Stream()),
 	)
 
 	grpcapp.RegisterUserServer(grpcServer, logger, userService, grpcMiddleware)
-	grpcapp.RegisterAuthServer(grpcServer, logger, loginService, tokenService, userService, jwk, grpcMiddleware)
+	grpcapp.RegisterAuthServer(grpcServer, logger, loginService, tokenService, userService, jwkey, grpcMiddleware)
 
 	return nil
 }

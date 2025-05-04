@@ -2,10 +2,10 @@ package grpc
 
 import (
 	"context"
-	"github.com/igntnk/Orderer-UAS/grpc/util"
-	authpb "github.com/igntnk/Orderer-UAS/proto/pb"
-	"github.com/igntnk/Orderer-UAS/requests"
-	"github.com/igntnk/Orderer-UAS/service"
+	"github.com/igntnk/Orderer/UAS/grpc/util"
+	authpb "github.com/igntnk/Orderer/UAS/proto/pb"
+	"github.com/igntnk/Orderer/UAS/requests"
+	"github.com/igntnk/Orderer/UAS/service"
 	"github.com/rs/zerolog"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"

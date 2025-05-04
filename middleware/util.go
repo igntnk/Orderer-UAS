@@ -2,7 +2,7 @@ package middleware
 
 import (
 	"errors"
-	"github.com/igntnk/Orderer-UAS/service"
+	"github.com/igntnk/Orderer/UAS/service"
 )
 
 type TokenInfo struct {

@@ -3,9 +3,9 @@ package service
 import (
 	"context"
 	"errors"
-	"github.com/igntnk/Orderer-UAS/models"
-	"github.com/igntnk/Orderer-UAS/repository"
-	"github.com/igntnk/Orderer-UAS/requests"
+	"github.com/igntnk/Orderer/UAS/models"
+	"github.com/igntnk/Orderer/UAS/repository"
+	"github.com/igntnk/Orderer/UAS/requests"
 	"github.com/rs/zerolog"
 	"golang.org/x/crypto/bcrypt"
 )

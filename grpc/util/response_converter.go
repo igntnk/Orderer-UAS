@@ -1,9 +1,9 @@
 package util
 
 import (
-	"github.com/igntnk/Orderer-UAS/models"
-	authpb "github.com/igntnk/Orderer-UAS/proto/pb"
-	"github.com/igntnk/Orderer-UAS/responses"
+	"github.com/igntnk/Orderer/UAS/models"
+	authpb "github.com/igntnk/Orderer/UAS/proto/pb"
+	"github.com/igntnk/Orderer/UAS/responses"
 )
 
 func GetUsersToAuthPb(in []*responses.GetUsersResponse) (*authpb.GetUsersResponse, error) {

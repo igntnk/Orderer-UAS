@@ -26,6 +26,7 @@ type Config struct {
 			AccessTTL         time.Duration `yaml:"access_ttl" mapstructure:"access_ttl"`
 			RefreshTTL        time.Duration `yaml:"refresh_ttl" mapstructure:"refresh_ttl"`
 			JwtPrivateKeyPath string        `yaml:"jwt_private_key_path" mapstructure:"jwt_private_key_path"`
+			JwtAlg            string        `yaml:"jwt_alg" mapstructure:"jwt_alg"`
 		} `yaml:"auth" mapstructure:"auth"`
 	} `yaml:"server" mapstructure:"server"`
 }
